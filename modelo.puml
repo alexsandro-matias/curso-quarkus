@@ -1,0 +1,47 @@
+@startuml
+class io.github.alexsandro.quarkussocial.rest.dto.CreateUserRequest {
+- String name
+- Integer age
++ String getName()
++ void setName(String)
++ Integer getAge()
++ void setAge(Integer)
+}
+
+
+class io.github.alexsandro.GreetingResource {
++ String hello()
+}
+
+class io.github.alexsandro.MyEntity {
++ String field
+}
+
+class io.github.alexsandro.quarkussocial.domain.model.User {
+- Long id
+- String name
+- Integer age
++ boolean equals(Object)
++ int hashCode()
++ String getName()
++ void setName(String)
++ Integer getAge()
++ void setAge(Integer)
+}
+
+
+interface io.github.alexsandro.MyEntityResource {
+}
+class io.github.alexsandro.quarkussocial.rest.UserResource {
++ Response createUser(CreateUserRequest)
++ Response listAllUsers()
++ Response deleteUser(Long)
++ Response updateUser(Long,CreateUserRequest)
+}
+
+
+
+io.quarkus.hibernate.orm.panache.PanacheEntity <|-- io.github.alexsandro.MyEntity
+io.quarkus.hibernate.orm.panache.PanacheEntityBase <|-- io.github.alexsandro.quarkussocial.domain.model.User
+io.quarkus.hibernate.orm.rest.data.panache.PanacheEntityResource <|-- io.github.alexsandro.MyEntityResource
+@enduml
