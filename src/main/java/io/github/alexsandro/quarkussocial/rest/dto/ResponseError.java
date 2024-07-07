@@ -1,6 +1,7 @@
 package io.github.alexsandro.quarkussocial.rest.dto;
 
 import jakarta.validation.ConstraintViolation;
+import jakarta.ws.rs.core.Response;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,10 +10,8 @@ import java.util.stream.Collectors;
 
 public class ResponseError {
 
-
-    private String message;
-    private Collection<FieldError> errors;
-
+    private final String message;
+    private final Collection<FieldError> errors;
 
     public ResponseError(String message, Collection<FieldError> errors) {
         this.message = message;
@@ -21,7 +20,6 @@ public class ResponseError {
 
     public static <T> ResponseError createFromValidation(Set<ConstraintViolation<T>> violations) {
 
-      
         List<FieldError> errors = violations.stream().map(cv -> new FieldError(cv.getPropertyPath().toString(), cv.getMessage())).collect(Collectors.toList());
 
         String message = "Erro de Validação";
@@ -29,13 +27,10 @@ public class ResponseError {
 
     }
 
-
-    public String getMessage() {
-        return message;
+    public Response returnStatusCode(int code)
+    {
+        return Response.status(code).entity(this).build();
     }
 
-    public Collection<FieldError> getErrors() {
-        return errors;
-    }
 
 }
